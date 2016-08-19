@@ -14,13 +14,18 @@ angular.module('relampago', ['LocalStorageModule'])
 	  	link: function($scope){
 	  		var socket = io.connect('http://localhost:3000');
 
+	  		var aux = 0;
+
 	  		$scope.sendMessage = function(){
-	  			socket.emit('mensagem', '<strong>' + $rootScope.nome + '</strong>: ' + $scope.mensagem);
+	  			socket.emit('mensagem', {nome: $rootScope.nome, msg: $scope.mensagem});
 	  			$scope.mensagem = '';
 	  		}
 
 	  		socket.on('mensagem', function(msg){
-		        $('#messages').append($('<li>').html(msg));
+	  			msg.msg = msg.msg.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+		        $('#messages').append($('<li>').html("<strong id='"+ aux + "'>" + msg.nome + '</strong>: ' + msg.msg));
+		        $("#" + aux)[0].scrollIntoView();
+		        aux++;
 		    });
 	  	},
 	    templateUrl: 'view/mensagem.html'
