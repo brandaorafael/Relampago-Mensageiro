@@ -13,6 +13,7 @@ angular.module('relampago', ['LocalStorageModule'])
 	  	restrict: 'E',
 	  	link: function($scope){
 	  		var socket = io.connect('http://localhost:3000');
+	  		// var socket = io.connect('http://relampagomaruinhos.localtunnel.me');
 
 	  		var aux = 0;
 
